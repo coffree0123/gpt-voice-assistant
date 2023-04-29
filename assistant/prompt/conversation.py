@@ -5,9 +5,9 @@ from langchain import PromptTemplate
 def load_prompt(filename: str):
     path = Path('./prompts') / Path(filename)
     with open(path, 'r') as f:
-        document_string = f.read()
+        prompt = f.read()
 
-    return document_string
+    return prompt
 
 
 def load_assistant_prompt(templete_path: str = 'en_assistant'):
