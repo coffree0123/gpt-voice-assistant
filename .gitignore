@@ -1,0 +1,7 @@
+# Environment variables.
+.env
+
+# Cache files.
+__pycache__
+settings.json
+.vscode
