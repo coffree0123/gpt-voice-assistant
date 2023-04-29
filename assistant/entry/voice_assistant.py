@@ -32,7 +32,7 @@ def listen():
             text = ''
             print('listening now...')
             try:
-                audio = r.listen(source, timeout=6, phrase_time_limit=5)
+                audio = r.listen(source, timeout=8, phrase_time_limit=6)
                 print('Recognizing...')
                 text = r.recognize_google(audio)
             except Exception as e:
