@@ -1,11 +1,8 @@
 import time
-import pyttsx3
 import speech_recognition as sr
 from dotenv import load_dotenv
-from langchain import LLMChain
-from langchain.chat_models import ChatOpenAI
-from langchain.memory import ConversationBufferWindowMemory
-from assistant.prompt.conversation import load_assistant_prompt
+from assistant.utils import TTS
+from assistant.agent import build_gpt_agent
 
 load_dotenv()  # take environment variables from .env.
 
@@ -23,27 +20,10 @@ def text_from_speech(recognizer, source):
     return text
 
 
-def build_gpt_agent(prompt: str = 'en_assistant'):
-    # Prepare prompt for chatgpt agent. You can add any prompt templete as you wish.
-    # Chek prompts folder for more information.
-    prompt = load_assistant_prompt(prompt)
-
-    # Prepare agent chain for ai-assistant.
-    agent = LLMChain(
-        # You can change model to gpt-4 as well.
-        llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
-        prompt=prompt,
-        verbose=True,
-        memory=ConversationBufferWindowMemory(k=2),
-    )
-
-    return agent
-
-
 def listen():
     agent = build_gpt_agent()
     # Prepare text-to-speech(TTS) model and ASR model.
-    tts = pyttsx3.init()
+    tts = TTS()
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         recognizer.adjust_for_ambient_noise(source)
@@ -58,7 +38,6 @@ def listen():
             print(f"Response: {response_text}")
 
             # Step 3: Text to speech.
-            time.sleep(1)
             tts.say(response_text)
             tts.runAndWait()
 

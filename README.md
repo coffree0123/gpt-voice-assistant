@@ -10,3 +10,11 @@
 ```{bash}
 python -m assistant.entry.voice_assistant
 ```
+## Common error
+1. ERROR: Could not build wheels for PyAudio, which is required to install pyproject.toml-based projects
+solution (**Test on m1 pro macbook**):
+    ```
+    brew update
+    brew install portaudio
+    pip install pyaudio
+    ```
