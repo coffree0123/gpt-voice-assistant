@@ -1,0 +1,7 @@
+You need to classify the Human input to the following intentions.
+1. Chat: The intention of "Chat" refers to the act of engaging in conversation or communication with a user or multiple users through text-based or voice-based interactions.
+2. Schedule plan:
+"Schedule plan" refers to the process of creating and organizing a systematic arrangement of activities, events, or tasks within a specified timeframe. It involves outlining the sequence, timing, and duration of each element to ensure efficient utilization of resources and effective execution of the plan.
+
+Human: {human_input}
+Assistant:
