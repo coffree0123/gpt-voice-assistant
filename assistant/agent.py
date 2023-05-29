@@ -5,11 +5,11 @@ from assistant.prompt.conversation import load_initial_promit, load_assistant_pr
 
 
 class Agent():
-    def __init__(self, initial_prompt: str) -> None:
+    def __init__(self) -> None:
         # Prepare agent chain for ai-assistant.
         self.initial_agent = LLMChain(
             llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
-            prompt=load_initial_promit(initial_prompt),
+            prompt=load_initial_promit("initial_stage"),
             verbose=False,
         )
 
@@ -35,6 +35,6 @@ class Agent():
         return result
 
 
-def build_gpt_agent(prompt: str = 'initial_stage'):
-    agent = Agent(prompt)
+def build_gpt_agent():
+    agent = Agent()
     return agent
