@@ -10,6 +10,14 @@ def load_prompt(filename: str):
     return prompt
 
 
+def load_simple_prompt(templete_path: str = 'en_assistant'):
+    template = load_prompt(templete_path)
+    return PromptTemplate(
+        input_variables=["human_input"],
+        template=template
+    )
+
+
 def load_assistant_prompt(templete_path: str = 'en_assistant'):
     template = load_prompt(templete_path)
     return PromptTemplate(
@@ -17,12 +25,6 @@ def load_assistant_prompt(templete_path: str = 'en_assistant'):
         template=template
     )
 
-def load_initial_promit(templete_path: str = 'initial_stage'):
-    template = load_prompt(templete_path)
-    return PromptTemplate(
-        input_variables=["human_input"],
-        template=template
-    )
 
 if __name__ == '__main__':
     # Only for checking the correctness.
