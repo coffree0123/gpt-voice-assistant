@@ -68,7 +68,7 @@ class Schedule():
         print(self)
     def reschedule(self, name, date, startTime, endTime):
         self.remove_activity(name)
-        add_activity(name, date, startTime, endTime)
+        self.add_activity(name, date, startTime, endTime)
     def is_available(self, date, startTime, endTime):
         for start, end in self.schedule[date].values():
             if not (start >= endTime or end <= startTime):
@@ -96,53 +96,24 @@ def get_schedule():
     return str(schedule)
 
 @tool
-def add_activity(activity: str, date: str, startTime: int, endTime: int)->str:
-    """Add exactly one activity into the schedule.\
-    The activity starts at 'startTime' and end at 'endTime' (in hours).\
-    The 'date' can only be 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'.\
-    You should add the activity one by one.
+def add_activities(activities: list[list], save_schedule: bool) -> str:
+    """Add activities into the schedule and save the schedule.\
+    The 'activities' arguments is a list of 4-entry tuple where the first entry is the activity name, the second one is the date, \
+    the third one is the start time (in hours), the forth one is the end time (in hours). For example, \
+    [["Math course", "Mon", 9, 12]] indicates addding a activity named 'Math course', on Monday 9:00~12:00.\
+    The 'save_schedule' is 'True' indicates you want to save the schedule to file, while 'False' indicates you don't want to save it.\
+    You can finish your job if all things are done.
     """
-    date = format_date(date)
-    print(activity, startTime, endTime, date, "add")
-    res = schedule.add_activity(activity, date, startTime, endTime)
-    return res
-@tool
-def remove_activity(activity: str, date: str)->str:
-    """Remove exactly one activity on a specific date from the schedule.\
-    The argument 'date' represents the date of the activity that we want to remove. \
-    The 'date' can only be 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'.\
-    You should add the activity one by one.
-    """
-    date = format_date(date)
-    print(activity, 'remove')
-    schedule.remove_activity(activity, date)
-    return "Successfully remove the activity"
+    print(activities)
 
-@tool
-def is_available(date: str, startTime: int, endTime: int)->str:
-    """Check if the time slot from 'startTime' to 'endTime' on 'date' is available.\
-    'startTime' and 'endTime' are in hours.\
-    The 'date' can only be 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'.
-    """
-    date = format_date(date)
-    print(date, startTime, endTime, 'available')
-    if schedule.is_available(date, startTime, endTime):
-        return "Available !"
-    else:
-        return "Not available !"
-@tool
-def save_schedule()->str:
-    """Save the current schedule to file. You can consider to finish your job after saving the file.
-    """
-    # if file_name is not None:
-    #     with open(os.path.join(ROOT_DIR, file_name), 'w') as f:
-    #         json.dump(schedule.schedule, f)
-    #     return f"Save file to {file_name}."
-    if not os.path.isdir(ROOT_DIR):
-        os.mkdir(ROOT_DIR)
-    with open(os.path.join(ROOT_DIR, 'schedule.json'), 'w') as f:
-        json.dump(schedule.schedule, f)
-    return "Save file to schedule.txt."
+    for name, date, start, end in activities:
+        schedule.add_activity(name, format_date(date), start, end)
+    if save_schedule:
+        if not os.path.isdir(ROOT_DIR):
+            os.mkdir(ROOT_DIR)
+        with open(os.path.join(ROOT_DIR, 'schedule.json'), 'w') as f:
+            json.dump(schedule.schedule, f)
+    return "Add the activities successfully. You can finish your job."
 # Memory
 
 import faiss
@@ -159,12 +130,8 @@ def build_schedule_agent():
     vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
 
     tools = [
-        add_activity,
-        remove_activity,
-        is_available,
-        get_schedule,
-        save_schedule
-        # reschedule_activity,
+        add_activities,
+        get_schedule
         # HumanInputRun(), # Activate if you want the permit asking for help from the human
     ]
 
@@ -181,16 +148,17 @@ def build_schedule_agent():
 
 if __name__ == '__main__':
     agent = build_schedule_agent()
-    # agent.chain.verbose = True
+    agent.chain.verbose = True
     print(schedule)
     agent.run(["Hi, Tom. This is my to-do list of this week:\
                 1. An AI course on Monday from 13:00 to 15:00.\
                 2. A statistics course on Thursday from 15:00 to 17:00.\
+                3. An AI final project that takes me about 7 hours and must be finished before Wednsday.\
+                4. One of my friends ask me if I can play basketball with him on Monday afternoon.\
             Please show me the final schedule of this week and save the final schedule.\
-            "])
+        "])
 
     # agent.run(["Hi, Tom. Can you give me a 14-hour Math study plan of this week?\
     #            Please also show me the final schedule."])
     print(schedule)
-                # 2. An AI final project that takes me about 7 hours and must be finished before Wednsday.\
-                # 4. One of my friends ask me if I can play basketball with him on Monday afternoon.\
+                
