@@ -138,6 +138,8 @@ def save_schedule()->str:
     #     with open(os.path.join(ROOT_DIR, file_name), 'w') as f:
     #         json.dump(schedule.schedule, f)
     #     return f"Save file to {file_name}."
+    if not os.path.isdir(ROOT_DIR):
+        os.mkdir(ROOT_DIR)
     with open(os.path.join(ROOT_DIR, 'schedule.json'), 'w') as f:
         json.dump(schedule.schedule, f)
     return "Save file to schedule.txt."
