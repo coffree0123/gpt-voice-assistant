@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 import os
 import pandas as pd
+import json
 from langchain.experimental.autonomous_agents.autogpt.agent import AutoGPT
 from langchain.chat_models import ChatOpenAI
 
@@ -129,19 +130,17 @@ def is_available(date: str, startTime: int, endTime: int)->str:
         return "Available !"
     else:
         return "Not available !"
-# @tool
-# def save_schedule(file_name: str | None)->str:
-#     """Save the current schedule to file.\
-#         'file_name' is the file name.
-#     """
-#     if file_name is not None:
-#         with open(file_name, 'w') as f:
-#             f.write(str(schedule))
-#         return f"Save file to {file_name}."
-#     else:
-#         with open('schedule.txt', 'w') as f:
-#             f.write(str(schedule))
-#         return "Save file to schedule.txt."
+@tool
+def save_schedule()->str:
+    """Save the current schedule to file. You can consider to finish your job after saving the file.
+    """
+    # if file_name is not None:
+    #     with open(os.path.join(ROOT_DIR, file_name), 'w') as f:
+    #         json.dump(schedule.schedule, f)
+    #     return f"Save file to {file_name}."
+    with open(os.path.join(ROOT_DIR, 'schedule.json'), 'w') as f:
+        json.dump(schedule.schedule, f)
+    return "Save file to schedule.txt."
 # Memory
 
 import faiss
@@ -151,20 +150,19 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.tools.human.tool import HumanInputRun
 
 def build_schedule_agent():
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=1.0)
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
     embeddings_model = OpenAIEmbeddings()
     embedding_size = 1536
     index = faiss.IndexFlatL2(embedding_size)
     vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
 
     tools = [
-        WriteFileTool(root_dir="./data"),
         add_activity,
         remove_activity,
         is_available,
-        get_schedule
+        get_schedule,
+        save_schedule
         # reschedule_activity,
-        # save_schedule
         # HumanInputRun(), # Activate if you want the permit asking for help from the human
     ]
 
@@ -186,7 +184,7 @@ if __name__ == '__main__':
     agent.run(["Hi, Tom. This is my to-do list of this week:\
                 1. An AI course on Monday from 13:00 to 15:00.\
                 2. A statistics course on Thursday from 15:00 to 17:00.\
-            Please show me the final schedule of this week and save the final schedule to 'schedule.txt'.\
+            Please show me the final schedule of this week and save the final schedule.\
             "])
 
     # agent.run(["Hi, Tom. Can you give me a 14-hour Math study plan of this week?\
