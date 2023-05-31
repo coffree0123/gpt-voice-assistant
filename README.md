@@ -10,6 +10,7 @@ nvm install 16
 ### Build
 ```{bash}
 cd frontend
+npm install
 npm run build
 ```
 
