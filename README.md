@@ -24,7 +24,7 @@ npm run build
 ### Usage
 ```{bash}
 cd backend
-uvicorn server:app
+python -m uvicorn server:app --reload
 ```
 ### Common error
 1. ERROR: Could not build wheels for PyAudio, which is required to install pyproject.toml-based projects
