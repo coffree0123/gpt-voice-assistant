@@ -150,15 +150,15 @@ if __name__ == '__main__':
     agent = build_schedule_agent()
     agent.chain.verbose = True
     print(schedule)
-    agent.run(["Hi, Tom. This is my to-do list of this week:\
-                1. An AI course on Monday from 13:00 to 15:00.\
-                2. A statistics course on Thursday from 15:00 to 17:00.\
-                3. An AI final project that takes me about 7 hours and must be finished before Wednsday.\
-                4. One of my friends ask me if I can play basketball with him on Monday afternoon.\
-            Please show me the final schedule of this week and save the final schedule.\
-        "])
+    # agent.run(["Hi, Tom. This is my to-do list of this week:\
+    #             1. An AI course on Monday from 13:00 to 15:00.\
+    #             2. A statistics course on Thursday from 15:00 to 17:00.\
+    #             3. An AI final project that takes me about 7 hours and must be finished before Wednsday.\
+    #             4. One of my friends ask me if I can play basketball with him on Monday afternoon.\
+    #         Please show me the final schedule of this week and save the final schedule.\
+    #     "])
 
-    # agent.run(["Hi, Tom. Can you give me a 14-hour Math study plan of this week?\
-    #            Please also show me the final schedule."])
+    agent.run(["Hi, Tom. Can you give me a Math study plan of this week?\
+               Please show me the final schedule and save the final schedule."])
     print(schedule)
                 
