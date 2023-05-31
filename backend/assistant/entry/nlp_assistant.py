@@ -9,7 +9,7 @@ def listen():
     while (True):
         text = input("Please enter your question: ")
         # Test for nlp agent.
-        response_text = agent.run(text)
+        response_text = agent.run(human_input=text)
 
         print(f"User: {text}")
         print(f"Response: {response_text}")

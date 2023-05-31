@@ -10,14 +10,6 @@ def load_prompt(filename: str):
     return prompt
 
 
-def load_simple_prompt(templete_path: str = 'en_assistant'):
-    template = load_prompt(templete_path)
-    return PromptTemplate(
-        input_variables=["human_input"],
-        template=template
-    )
-
-
 def load_assistant_prompt(templete_path: str = 'en_assistant'):
     template = load_prompt(templete_path)
     return PromptTemplate(
