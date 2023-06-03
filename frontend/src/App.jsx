@@ -63,7 +63,7 @@ function App() {
                   <div key={index} style={{ padding: "20px" }}>
                     <div>
                       {/* Messages are being rendered in Markdown format */}
-                      <div style={{ color: "black" }}>{message.message}</div>
+                      <div style={{ color: "black", whiteSpace: "pre-line" }}>{message.message}</div>
                     </div>
                   </div>
                 )
@@ -71,7 +71,7 @@ function App() {
                 return (
 
                   // The latest message sent by the user will be animated while waiting for a response
-                  <div key={index} style={{ padding: "20px", textAlign: "right", background: "gray", width: "100%", color: "white" }}>
+                  <div key={index} style={{ padding: "20px", whiteSpace: "pre-line", textAlign: "right", background: "gray", width: "100%", color: "white" }}>
                     <div>
                       {/* Messages are being rendered in Markdown format */}
                       <div>{message.message}</div>
