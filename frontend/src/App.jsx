@@ -13,7 +13,7 @@ function App() {
 
   const [messages, setMessages] = useState([
     {
-      "message": "How can I help?",
+      "message": "Hi, I am a ai assistant. How can I help?",
       "type": "apiMessage"
     },
   ]);
@@ -63,7 +63,7 @@ function App() {
                   <div key={index} style={{ padding: "20px" }}>
                     <div>
                       {/* Messages are being rendered in Markdown format */}
-                      <div>{message.message}</div>
+                      <div style={{ color: "black" }}>{message.message}</div>
                     </div>
                   </div>
                 )
