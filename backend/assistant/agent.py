@@ -6,7 +6,7 @@ from langchain.utilities import ArxivAPIWrapper
 from langchain.tools import DuckDuckGoSearchRun
 from langchain.memory import ConversationBufferWindowMemory
 from assistant.prompt.conversation import load_simple_prompt, load_assistant_prompt
-
+from assistant.entry.schedule_assistant import build_schedule_agent
 
 class Agent():
     def __init__(self) -> None:
@@ -41,6 +41,8 @@ class Agent():
             prompt=load_simple_prompt("paper_search"),
             verbose=False
         )
+
+        self.schedule_agent = build_schedule_agent()
         
         # Tool collection.
         self.paper_search = ArxivAPIWrapper()
@@ -55,6 +57,8 @@ class Agent():
         result = None
         if 'schedule' in intent.lower():
             print(f"Intention is schedule plan: {intent}")
+            print(text)
+            result = self.schedule_agent.run([text])
         elif 'video' in intent.lower():
             print(f"Intention is searching video: {intent}")
             search_name = self.video_agent.run(text).replace('"', '').replace('\n', '')

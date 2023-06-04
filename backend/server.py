@@ -7,6 +7,7 @@ import speech_recognition as sr
 from fastapi import File, UploadFile
 from starlette.responses import JSONResponse
 import os
+import json
 
 
 class Text(BaseModel):
@@ -47,15 +48,21 @@ async def upload_audio(file: UploadFile = File(...)):
 
 @app.get("/api/tasks")
 def get_tasks():
-    return {
-        "Mon": {"AI course": [13, 15]},
-        "Tue": {},
-        "Wed": {},
-        "Thu": {"statistics course": [15, 17]},
-        "Fri": {},
-        "Sat": {},
-        "Sun": {},
-    }
+    if not os.path.isdir('data'):
+        os.mkdir('data')
+    if not os.path.isfile('data/schedule.json'):
+        return {
+            "Mon": {},
+            "Tue": {},
+            "Wed": {},
+            "Thu": {},
+            "Fri": {},
+            "Sat": {},
+            "Sun": {},
+        }
+    with open('data/schedule.json', 'r') as f:
+        schedule = json.load(f)
+    return schedule
 
 
 if os.environ.get("ENV") == "prod":
