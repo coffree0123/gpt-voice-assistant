@@ -1,8 +1,0 @@
-You need to classify the Human input to the following intentions.
-1. Chat: The intention of "Chat" refers to the act of engaging in conversation or communication with a user or multiple users through text-based or voice-based interactions.
-2. Schedule plan: "Schedule plan" refers to the process of creating and organizing a systematic arrangement of activities, events, or tasks within a specified timeframe. It involves outlining the sequence, timing, and duration of each element to ensure efficient utilization of resources and effective execution of the plan.
-3. Video search: "Video search" refers to user want to search some video for fun or any other reason they want to find some interesting video.
-4. Paper search: "Paper search" refers to someone want to find paper or related research topic.
-
-Human: {human_input}
-Assistant:
