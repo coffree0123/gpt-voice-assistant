@@ -32,7 +32,7 @@ def listen():
             text = text_from_speech(recognizer, source)
 
             # Step 2: Chatgpt response consider input text.
-            response_text = agent.run(human_input=text)
+            response_text = agent.run(text)
 
             print(f"User: {text}")
             print(f"Response: {response_text}")

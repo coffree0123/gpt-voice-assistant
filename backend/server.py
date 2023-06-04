@@ -1,10 +1,8 @@
-from typing import Union
 from fastapi import FastAPI
 from assistant.agent import build_gpt_agent
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
-from assistant.entry.voice_assistant import text_from_speech
 import speech_recognition as sr
 from fastapi import File, UploadFile
 from starlette.responses import JSONResponse
@@ -22,11 +20,9 @@ app = FastAPI()
 gpt_agent = build_gpt_agent()
 
 
-
-
 @app.post("/api/text")
 def chat(text: Text):
-    response_text = gpt_agent.run(human_input=text.text)
+    response_text = gpt_agent.run(text.text)
     return {"response": response_text}
 
 
@@ -60,6 +56,7 @@ def get_tasks():
         "Sat": {},
         "Sun": {},
     }
+
 
 if os.environ.get("ENV") == "prod":
     app.mount("/", StaticFiles(directory="dist", html=True))
